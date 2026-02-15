@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>你画我猜 - 双人在线游戏</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div id="loginScreen" class="screen">
+    <div class="login-container">
+      <h1>你画我猜</h1>
+      <p>双人在线绘画猜词游戏</p>
+      <div class="input-group">
+        <input type="text" id="username" placeholder="请输入你的昵称" maxlength="10">
+        <input type="text" id="roomId" placeholder="请输入房间号" maxlength="6">
+      </div>
+      <button id="joinBtn" class="btn primary">加入游戏</button>
+    </div>
+  </div>
+
+  <div id="gameScreen" class="screen hidden">
+    <div class="game-container">
+      <div class="header">
+        <div class="room-info">
+          <span>房间号: <strong id="displayRoomId"></strong></span>
+          <span>回合: <strong id="round">1</strong></span>
+        </div>
+        <div class="role-info">
+          <span id="roleDisplay">等待中...</span>
+        </div>
+        <div class="scores">
+          <div class="score-item">
+            <span id="player1Name">玩家1</span>
+            <span id="player1Score">0</span>
+          </div>
+          <div class="score-item">
+            <span id="player2Name">玩家2</span>
+            <span id="player2Score">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="word-display" id="wordDisplay">
+        <span id="wordText"></span>
+      </div>
+
+      <div class="canvas-container">
+        <canvas id="drawingCanvas"></canvas>
+        <div class="toolbar">
+          <div class="color-picker">
+            <button class="color-btn active" data-color="#000000" style="background-color: #000000;"></button>
+            <button class="color-btn" data-color="#FF0000" style="background-color: #FF0000;"></button>
+            <button class="color-btn" data-color="#00FF00" style="background-color: #00FF00;"></button>
+            <button class="color-btn" data-color="#0000FF" style="background-color: #0000FF;"></button>
+            <button class="color-btn" data-color="#FFFF00" style="background-color: #FFFF00;"></button>
+            <button class="color-btn" data-color="#FF00FF" style="background-color: #FF00FF;"></button>
+            <button class="color-btn" data-color="#00FFFF" style="background-color: #00FFFF;"></button>
+            <button class="color-btn" data-color="#FFA500" style="background-color: #FFA500;"></button>
+          </div>
+          <div class="size-picker">
+            <button class="size-btn" data-size="2">细</button>
+            <button class="size-btn active" data-size="5">中</button>
+            <button class="size-btn" data-size="10">粗</button>
+          </div>
+          <div class="tools">
+            <button id="pencilBtn" class="tool-btn active">✏️</button>
+            <button id="eraserBtn" class="tool-btn">🧹</button>
+            <button id="clearBtn" class="tool-btn">🗑️</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="guess-section" id="guessSection">
+        <div class="input-group">
+          <input type="text" id="guessInput" placeholder="输入你的答案..." maxlength="20">
+          <button id="submitGuessBtn" class="btn primary">提交</button>
+        </div>
+        <div id="guessResult" class="guess-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-icon">🎉</div>
+      <h2 id="modalTitle">回答正确！</h2>
+      <p id="modalMessage">恭喜你猜对了答案！</p>
+      <div id="nextRoundSection" class="next-round-section">
+        <p>双方都同意后进入下一关</p>
+        <div class="vote-status">
+          <span id="vote1">等待投票...</span>
+          <span id="vote2">等待投票...</span>
+        </div>
+        <button id="agreeBtn" class="btn primary">同意进入下一关</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="waitingModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-icon">⏳</div>
+      <h2>等待玩家加入</h2>
+      <p>房间号: <strong id="waitingRoomId"></strong></p>
+      <p>请分享房间号给朋友，等待对方加入...</p>
+      <div class="loading-spinner"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
