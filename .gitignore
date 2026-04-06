@@ -4,3 +4,11 @@ npm-debug.log
 .DS_Store
 *.log
 .npm-cache/
+.git/
+glitch.json
+GLITCH_DEPLOY.md
+WISPBYTE_DEPLOY.md
+BRANCH_GUIDE.md
+DEPLOY.md
+GIT_GUIDE.md
+UPLOAD_GUIDE.md
